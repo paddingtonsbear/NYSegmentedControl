@@ -115,7 +115,7 @@
     [darkControlExampleView addSubview:purpleSegmentedControl];
     
     // UISwitch style
-    NYSegmentedControl *roundedGreenSegmentedControl = [[NYSegmentedControl alloc] initWithItems:@[@"On", @"Off"]];
+    NYSegmentedControl *roundedGreenSegmentedControl = [[NYSegmentedControl alloc] initWithItems:@[@"On", @"Off"] andGestureView: self.view];
     roundedGreenSegmentedControl.borderWidth = 2.0f;
     roundedGreenSegmentedControl.borderColor = [UIColor colorWithWhite:0.15f alpha:1.0f];
     roundedGreenSegmentedControl.titleFont = [UIFont fontWithName:@"AvenirNext-Medium" size:16.0f];

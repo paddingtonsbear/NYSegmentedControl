@@ -171,6 +171,20 @@
  */
 @property (nonatomic) CGFloat springAnimationVelocity UI_APPEARANCE_SELECTOR;
 
+/**
+ The pan gesture for the segmented control.
+ 
+ @see viewPanGestureRecognizer
+ */
+@property (nonatomic) UIPanGestureRecognizer *viewPanGestureRecognizer;
+
+/**
+ Animate segment based on gesture with a passed in view
+ 
+ @see panGestureView
+ */
+@property (nonatomic) UIView * panGestureView;
+
 #endif
 
 /**
@@ -181,6 +195,17 @@
  @return An initialized NYSegmentedControl object, or nil if it could not be created.
  */
 - (instancetype)initWithItems:(NSArray *)items;
+
+/**
+ Initializes and returns a control with segments having the specified titles.
+ 
+ @param items An array of NSString objects representing the titles of segments in the control.
+ 
+ @param view that would be used to animate segments in control
+ 
+ @return An initialized NYSegmentedControl object, or nil if it could not be created.
+ */
+- (instancetype)initWithItems:(NSArray *)items andGestureView:(UIView *)gestureView;
 
 /**
  Inserts a segment at the specified index.

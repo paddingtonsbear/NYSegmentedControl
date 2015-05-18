@@ -72,6 +72,19 @@
     return self;
 }
 
+- (instancetype)initWithItems:(NSArray *)items andGestureView:(UIView *)gestureView {
+    self = [self initWithItems:items];
+    
+    if (self) {
+        _viewPanGestureRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(panGestureRecognizedWithView:)];
+        [_viewPanGestureRecognizer setMinimumNumberOfTouches:1];
+        [_viewPanGestureRecognizer setMaximumNumberOfTouches:1];
+        [gestureView addGestureRecognizer:_viewPanGestureRecognizer];
+    }
+    
+    return self;
+}
+
 - (void)initialize {
     // We need to directly access the ivars for UIAppearance properties in the initializer
     _titleFont = [UIFont systemFontOfSize:13.0f];
@@ -105,6 +118,7 @@
     [panGestureRecognizer setMinimumNumberOfTouches:1];
     [panGestureRecognizer setMaximumNumberOfTouches:1];
     [self.selectedSegmentIndicator addGestureRecognizer:panGestureRecognizer];
+
     
     UITapGestureRecognizer *tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapGestureRecognized:)];
     tapGestureRecognizer.numberOfTapsRequired = 1;
@@ -319,6 +333,9 @@
 }
 
 #pragma mark - Touch Tracking
+- (void)panGestureRecognizedWithView:(UIPanGestureRecognizer *)panGestureRecognizer {
+    [self panGestureRecognized:panGestureRecognizer];
+}
 
 - (void)panGestureRecognized:(UIPanGestureRecognizer *)panGestureRecognizer {
     CGPoint translation = [panGestureRecognizer translationInView:panGestureRecognizer.view.superview];
@@ -341,7 +358,7 @@
     }
     
     // Find the difference in horizontal position between the current and previous touches
-    CGFloat xDiff = translation.x;
+    CGFloat xDiff = -translation.x;
     
     // Check that the indicator doesn't exit the bounds of the control
     CGRect newSegmentIndicatorFrame = self.selectedSegmentIndicator.frame;
