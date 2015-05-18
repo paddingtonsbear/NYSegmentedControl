@@ -35,6 +35,29 @@
         CAGradientLayer *gradientLayer = (CAGradientLayer *)self.layer;
         gradientLayer.colors = @[(__bridge id)[self.gradientTopColor CGColor],
                                  (__bridge id)[self.gradientBottomColor CGColor]];
+        
+        CGContextRef currentContext = UIGraphicsGetCurrentContext();
+        
+        size_t num_locations = 2;
+        CGFloat locations[2] = { 0.0, 1.0 };
+        CGFloat components[8] = {
+            0.176, 0.741, 0.624, 1.0 ,//Yellow
+            0.027, 0.588, 0.761, 1.0};//Blue
+        
+        CGColorSpaceRef rgbColorspace = CGColorSpaceCreateDeviceRGB();
+        CGGradientRef gradient = CGGradientCreateWithColorComponents(rgbColorspace, components, locations, num_locations);
+        
+        CGPoint point1 = CGPointMake(0, 0);
+        CGPoint point2 = CGPointMake(self.bounds.size.width, self.bounds.size.height);
+        
+        CGContextSaveGState(currentContext);
+        CGContextAddRect(currentContext, rect);
+        CGContextClip(currentContext);
+        CGContextDrawLinearGradient(currentContext, gradient, point1, point2, 0);
+        
+        CGGradientRelease(gradient);
+        CGColorSpaceRelease(rgbColorspace);
+        CGContextRestoreGState(currentContext);
     } else {
         self.layer.backgroundColor = [self.backgroundColor CGColor];
     }
